@@ -1,38 +1,19 @@
 'use strict';
 
-//ELEMENTI DELLA TRACCIA
-const formCalculator = document.getElementById('calculator-form');
-const ticketPriceForKm = 0.21;
-const percentageUnder = 20;
-const percentageOver = 40;
+function ticketPrice () {
+    const userKm = parseFloat(document.getElementById('user-km').value);
+    const userAge = parseInt(document.getElementById('user-age').value);
+    const ticketPriceForKm = 0.21;
+    let ticketPrice = ticketPriceForKm * userKm;
 
-//ELEMENTI DATI DALL'UTENTE
-const userKm = document.getElementById('user-km');
-const userAge = document.getElementById('user-age');
+    if (userAge < 18) {
+        ticketPrice *= 0.8; //QUI APPLICO IL 20%
+    } else if (userAge > 65) {
+        ticketPrice *= 0.6; //QUI APPLICO IL 40%
+    }
 
+    ticketPrice = ticketPrice.toFixed(2);
 
-
-//PREZZO DEL BIGLIETTO SENZA SCONTO
-let ticketprice = ticketPriceForKm * userAge;
-
-//RISULTATO
-const result = document.getElementById('result');
-const resultContainer = document.getElementById('result-container');
-
- if (userAge < 18) {
-    ticketprice = ticketprice - ((ticketprice * percentageUnder) / 100)
-} else if (userAge > 65) {
-    ticketprice = ticketprice - ((ticketprice * percentageOver) / 100)
-} 
-
-
-formCalculator.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-  
-    //inserisco risultato nel dom
-    result.innerText = ticketprice;
-    //visualizzo contenitore risultato
-    resultContainer.classList.remove('d-none');
-  });
-
+    document.getElementById('result-container').innerHTML = 'Avendo analizzato i tuoi dati il prezzo a te associato è : ' + ticketPrice + "€";
+    document.getElementById('result').style.display = 'block';
+}
